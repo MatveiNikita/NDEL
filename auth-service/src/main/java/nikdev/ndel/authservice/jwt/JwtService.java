@@ -23,4 +23,7 @@ public class JwtService {
         return jwtUtils.getUserIdFromJwt(token);
     }
 
+    public String stripBearerPrefix(String token){
+        return jwtUtils.stripBearerPrefix(token);
+    }
 }

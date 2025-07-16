@@ -14,16 +14,16 @@ import java.util.UUID;
 @Component
 public class JwtUtils {
 
-    @Value("jwt.secret.key")
+    @Value("${jwt.secret.key}")
     private String SECRET_VALUE;
-    @Value("jwt.expire.time")
+    @Value("${jwt.expire.time}")
     private long EXPIRE_TIME;
     private Key secretKey;
 
     @PostConstruct
     public void init(){
-        byte[] keyBates = Base64.getDecoder().decode(SECRET_VALUE);
-        this.secretKey = Keys.hmacShaKeyFor(keyBates);
+        byte[] keyBytes = Base64.getDecoder().decode(SECRET_VALUE);
+        this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateJwtFromId(UUID uuid){
@@ -52,12 +52,12 @@ public class JwtUtils {
 
     private Jws<Claims> parseToken(String token){
         return Jwts.parserBuilder()
-                .setSigningKey(SECRET_VALUE)
+                .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token);
     }
 
-    private String stripBearerPrefix(String token){
+    public String stripBearerPrefix(String token){
         if (token != null && token.startsWith("Bearer ")){
             return token.substring(7).trim();
         }
