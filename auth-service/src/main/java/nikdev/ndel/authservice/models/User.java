@@ -34,14 +34,16 @@ public class User {
     private String surname;
 
     @Email
-    @Column(nullable = false, unique = true) //nullable - е допускает появления null в БД, а @NotNull в java программе
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @NotBlank
     private String password;
-    
+
+    @NotBlank
     private String phoneNumber;
 
+    @NotBlank
     private Date dateOfBirth;
     @CreationTimestamp
     private LocalDateTime createdTime;
