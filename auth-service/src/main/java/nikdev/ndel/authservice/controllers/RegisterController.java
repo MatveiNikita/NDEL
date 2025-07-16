@@ -1,5 +1,6 @@
 package nikdev.ndel.authservice.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import nikdev.ndel.authservice.dtos.RegisterUserDto;
 import nikdev.ndel.authservice.services.RegisterService;
@@ -17,7 +18,7 @@ public class RegisterController {
     private final RegisterService registerService;
 
     @PostMapping
-    public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto){
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterUserDto registerUserDto){
         registerService.register(registerUserDto);
         return ResponseEntity.ok().build();
     }
