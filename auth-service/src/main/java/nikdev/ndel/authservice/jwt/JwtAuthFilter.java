@@ -6,6 +6,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import nikdev.ndel.authservice.utils.CustomLoadByEmail;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -27,8 +32,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             String token = jwtService.stripBearerPrefix(authHeader);
 
             if (jwtService.validToke(token)){
-                String useId = jwtService.extractUserId(token);
+                UUID useId = jwtService.extractUserId(token);
+
+                if (useId != null && SecurityContextHolder.getContext().getAuthentication() == null){
+                    UserDetails userDetails = customLoadByEmail.loadUserByUsername(useId.toString());
+
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+
+                    authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+                }
             }
         }
+        filterChain.doFilter(request, response);
     }
 }

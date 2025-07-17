@@ -37,8 +37,8 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String getUserIdFromJwt(String token){
-        return parseToken(token).getBody().getSubject();
+    public UUID getUserIdFromJwt(String token){
+        return UUID.fromString(parseToken(token).getBody().getSubject());
     }
 
     public boolean validToken(String token){

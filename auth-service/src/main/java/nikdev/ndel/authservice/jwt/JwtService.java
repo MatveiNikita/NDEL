@@ -19,7 +19,7 @@ public class JwtService {
         return jwtUtils.validToken(token);
     }
 
-    public String extractUserId(String token){
+    public UUID extractUserId(String token){
         return jwtUtils.getUserIdFromJwt(token);
     }
 
