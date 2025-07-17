@@ -8,6 +8,7 @@ import nikdev.ndel.authservice.repositories.UserRepository;
 import nikdev.ndel.authservice.services.LoginService;
 import nikdev.ndel.authservice.services.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 

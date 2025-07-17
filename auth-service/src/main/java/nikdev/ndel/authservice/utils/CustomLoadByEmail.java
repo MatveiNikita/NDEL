@@ -14,7 +14,7 @@ public class CustomLoadByEmail {
 
     private final UserRepository userRepository;
 
-    public UserDetails loadUserByUsername(String uuid) throws UsernameNotFoundException {
+    public UserDetails loadUserByUserId(String uuid) throws UsernameNotFoundException {
         return userRepository.findById(UUID.fromString(uuid))
                 .map(UserDetailsImpl::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User with id: " + uuid + " doesn't exists"));
